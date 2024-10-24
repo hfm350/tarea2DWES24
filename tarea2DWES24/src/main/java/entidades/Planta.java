@@ -1,13 +1,10 @@
 package entidades;
 
-import java.util.Objects;
-
 public class Planta {
 	private String codigo;
 	private String nombrecomun;
 	private String nombrecientifico;
-	
-	
+	public Planta() {}
 	
 	public Planta(String codigo, String nombrecomun, String nombrecientifico) {
 		super();
@@ -15,7 +12,6 @@ public class Planta {
 		this.nombrecomun = nombrecomun;
 		this.nombrecientifico = nombrecientifico;
 	}
-	
 	public String getCodigo() {
 		return codigo;
 	}
@@ -34,27 +30,12 @@ public class Planta {
 	public void setNombrecientifico(String nombrecientifico) {
 		this.nombrecientifico = nombrecientifico;
 	}
+
 	@Override
-	public int hashCode() {
-		return Objects.hash(codigo, nombrecientifico, nombrecomun);
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Planta other = (Planta) obj;
-		return Objects.equals(codigo, other.codigo) && Objects.equals(nombrecientifico, other.nombrecientifico)
-				&& Objects.equals(nombrecomun, other.nombrecomun);
+	public String toString() {
+		return "codigo:" + codigo + "\tnombrecomun" + nombrecomun + "\tnombrecientifico:" + nombrecientifico;
 	}
 	
 	
 	
 }
-
-
-
-
