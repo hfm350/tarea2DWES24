@@ -54,6 +54,7 @@ public class Principal {
 			String sql = "INSERT INTO plantas(codigo, nombrecomun, nombrecientifico) VALUES ('"+nueva.getCodigo()+"' , '"+nueva.getNombrecomun()+"', '"+nueva.getNombrecientifico()+"')";
 			
 			PreparedStatement ps = con.prepareStatement(sql);
+			
 			ps.execute();
 			
 			con.close();

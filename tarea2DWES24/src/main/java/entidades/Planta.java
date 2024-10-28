@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.Objects;
+
 public class Planta {
 	private String codigo;
 	private String nombrecomun;
@@ -29,6 +31,26 @@ public class Planta {
 	}
 	public void setNombrecientifico(String nombrecientifico) {
 		this.nombrecientifico = nombrecientifico;
+	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigo, nombrecientifico, nombrecomun);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Planta other = (Planta) obj;
+		return Objects.equals(codigo, other.codigo) && Objects.equals(nombrecientifico, other.nombrecientifico)
+				&& Objects.equals(nombrecomun, other.nombrecomun);
 	}
 
 	@Override
