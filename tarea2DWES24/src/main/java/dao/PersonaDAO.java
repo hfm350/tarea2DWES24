@@ -15,9 +15,9 @@ public class PersonaDAO implements OperacionesCRUD<Persona> {
 	}
 
 	@Override
-	public boolean insertar(Persona elemento) {
+	public int insertar(Persona elemento) {
 
-		return false;
+		return 0;
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public interface OperacionesCRUD<T> {
 
-	public boolean insertar(T elemento);
+	public int insertar( T elemento);
 
 	public T buscarPorID(long id);
 

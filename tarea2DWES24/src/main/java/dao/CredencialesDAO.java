@@ -17,9 +17,9 @@ public class CredencialesDAO implements OperacionesCRUD<Credenciales> {
 	}
 
 	@Override
-	public boolean insertar(Credenciales elemento) {
+	public int insertar(Credenciales elemento) {
 
-		return false;
+		return 0;
 	}
 
 	@Override

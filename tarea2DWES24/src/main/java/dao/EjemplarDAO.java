@@ -19,9 +19,9 @@ public class EjemplarDAO implements OperacionesCRUD<Ejemplar> {
 	}
 
 	@Override
-	public boolean insertar(Ejemplar elemento) {
+	public int insertar(Ejemplar elemento) {
 		
-		return false;
+		return 0;
 	}
 
 	@Override

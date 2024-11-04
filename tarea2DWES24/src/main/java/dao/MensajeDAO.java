@@ -17,9 +17,9 @@ public class MensajeDAO implements OperacionesCRUD<Mensaje> {
 	}
 
 	@Override
-	public boolean insertar(Mensaje elemento) {
+	public int insertar(Mensaje elemento) {
 		
-		return false;
+		return 0;
 	}
 
 	@Override
