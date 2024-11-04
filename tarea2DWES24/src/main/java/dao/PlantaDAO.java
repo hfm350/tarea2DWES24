@@ -16,7 +16,7 @@ public class PlantaDAO implements OperacionesCRUD<Planta> {
 	}
 
 	@Override
-	public boolean insertarConID(Planta elemento) {
+	public boolean insertar(Planta elemento) {
 
 		return false;
 	}

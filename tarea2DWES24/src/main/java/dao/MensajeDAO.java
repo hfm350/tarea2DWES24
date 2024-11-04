@@ -1,21 +1,49 @@
 package dao;
 
+import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import entidades.Mensaje;
 
-public interface MensajeDAO {
+public class MensajeDAO implements OperacionesCRUD<Mensaje> {
 
-	int insertar(Mensaje c);
+	Connection connex;
 
-	int modificar(Mensaje c);
+	public MensajeDAO(Connection connex) {
+		if (this.connex == null)
+			this.connex = connex;
 
-	int eliminar(Mensaje c);
+	}
 
-	Mensaje findById(int id);
+	@Override
+	public boolean insertar(Mensaje elemento) {
+		
+		return false;
+	}
 
-	ArrayList<Mensaje> findByNombre(String nombre);
+	@Override
+	public Mensaje buscarPorID(long id) {
+		
+		return null;
+	}
 
-	List<Mensaje> findAll();
+	@Override
+	public Collection<Mensaje> busquedaDeTodos() {
+		
+		return null;
+	}
+
+	@Override
+	public boolean modificar(Mensaje elemento) {
+
+		return false;
+	}
+
+	@Override
+	public boolean eliminar(Mensaje elemento) {
+
+		return false;
+	}
+
 }

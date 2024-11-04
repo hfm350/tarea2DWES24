@@ -19,7 +19,7 @@ public class EjemplarDAO implements OperacionesCRUD<Ejemplar> {
 	}
 
 	@Override
-	public boolean insertarConID(Ejemplar elemento) {
+	public boolean insertar(Ejemplar elemento) {
 		
 		return false;
 	}
