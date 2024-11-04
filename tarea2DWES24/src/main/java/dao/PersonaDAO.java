@@ -1,18 +1,47 @@
 package dao;
 
+import java.sql.Connection;
+import java.util.Collection;
+
 import entidades.Persona;
 
-import java.util.ArrayList;
-import java.util.List;
+public class PersonaDAO implements OperacionesCRUD<Persona> {
 
+	Connection conex;
 
-public interface PersonaDAO {
-	
-	int insertar(Persona p);
-	int modificar (Persona p);
-	int eliminar (Persona p);
-	
-	Persona findById(int id);
-	ArrayList<Persona> findByNombre(String nombre);
-	List<Persona> findAll();
+	public PersonaDAO(Connection conex) {
+		if (this.conex == null)
+			this.conex = conex;
+	}
+
+	@Override
+	public boolean insertarConID(Persona elemento) {
+
+		return false;
+	}
+
+	@Override
+	public Persona buscarPorID(long id) {
+
+		return null;
+	}
+
+	@Override
+	public Collection<Persona> busquedaDeTodos() {
+
+		return null;
+	}
+
+	@Override
+	public boolean modificar(Persona elemento) {
+
+		return false;
+	}
+
+	@Override
+	public boolean eliminar(Persona elemento) {
+
+		return false;
+	}
+
 }

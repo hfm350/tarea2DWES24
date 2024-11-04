@@ -9,14 +9,12 @@ import java.util.Properties;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-import dao.EjemplarDAO;
-import dao.PlantaDAO;
-import daoImpl.PlantaDAOImpl;
+
 
 public class BasedeDatos {
-	private Connection con;
+	private static Connection con;
 
-	private static BasedeDatos f;
+	private static BasedeDatos connection = null;
 
 	private BasedeDatos() {
 		Properties prop = new Properties();
@@ -39,17 +37,32 @@ public class BasedeDatos {
 		}
 	}
 
-	public EjemplarDAO getEjemplarDAO() {
-		return new EjemplarDAOImpl(con);
+	
+
+	public static Connection getCon() {
+		return con;
 	}
 
-	public PlantaDAO getPlantaDAO() {
-		return new PlantaDAOImpl(con);
+
+
+	public static void setCon(Connection con) {
+		BasedeDatos.con = con;
 	}
 
-	public static BasedeDatos getCon() {
-		if (f == null)
-			f = new BasedeDatos();
-		return f;
+
+
+	public static BasedeDatos getInstance() {
+		if (connection == null)
+			connection = new BasedeDatos();
+		return connection;
+	}
+	
+	public static void CerrarConexion() {
+		try {
+			con.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
