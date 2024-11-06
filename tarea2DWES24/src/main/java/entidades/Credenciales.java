@@ -3,66 +3,57 @@ package entidades;
 import java.util.Objects;
 
 public class Credenciales {
-    private int id;
-    private String usuario;
-    private String password;
+	private long id;
+	private String usuario;
+	private String password;
+	private Long idPersona;
 
-    
-    public Credenciales(int id, String usuario, String password) {
-        this.id = id;
-        this.usuario = usuario;
-        this.password = password;
-    }
-
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, password, usuario);
+	public Credenciales(long id, String usuario, String password, Long idPersona) {
+		super();
+		this.id = id;
+		this.usuario = usuario;
+		this.password = password;
+		this.idPersona = idPersona;
 	}
 
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Credenciales other = (Credenciales) obj;
-		return id == other.id && Objects.equals(password, other.password) && Objects.equals(usuario, other.usuario);
+	public long getId() {
+		return id;
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Long getPersona() {
+		return idPersona;
+	}
+
+	public void setPersona(Long idPersona) {
+		this.idPersona = idPersona;
+	}
 
 	@Override
 	public String toString() {
-		return "Credenciales [id=" + id + ", usuario=" + usuario + ", password=" + password + "]";
+		return "Credenciales [id=" + id + ", usuario=" + usuario + ", password=" + password + ", idPersona=" + idPersona
+				+ "]";
 	}
-    
-    
+	
+	
+
 }

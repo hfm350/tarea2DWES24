@@ -3,23 +3,23 @@ package entidades;
 import java.util.Objects;
 
 public class Ejemplar {
-    private int id;
+    private long id;
     private String nombre;
-    private Planta planta;
+    private String planta;
 
     
-    public Ejemplar(int id, String nombre, Planta planta) {
+    public Ejemplar(long id, String nombre, String planta) {
         this.id = id;
         this.nombre = nombre;
         this.planta = planta;
     }
 
     
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -31,34 +31,14 @@ public class Ejemplar {
         this.nombre = nombre;
     }
 
-    public Planta getPlanta() {
+    public String getPlanta() {
         return planta;
     }
 
-    public void setPlanta(Planta planta) {
+    public void setPlanta(String planta) {
         this.planta = planta;
     }
     
-    
-
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, nombre, planta);
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Ejemplar other = (Ejemplar) obj;
-		return id == other.id && Objects.equals(nombre, other.nombre) && Objects.equals(planta, other.planta);
-	}
 
 
 	@Override

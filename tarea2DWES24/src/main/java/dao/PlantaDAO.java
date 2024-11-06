@@ -21,12 +21,12 @@ public class PlantaDAO implements OperacionesCRUD<Planta> {
 	}
 
 	@Override
-	public int insertar(Planta elemento) {
+	public long insertar(Planta p) {
 		try {
 			ps = conex.prepareStatement("insert into plantas (codigo, nombrecomun, nombrecientifico) values (?,?,?)");
-			ps.setString(1, elemento.getCodigo());
-			ps.setString(2, elemento.getNombrecomun());
-			ps.setString(3, elemento.getNombrecientifico());
+			ps.setString(1, p.getCodigo());
+			ps.setString(2, p.getNombrecomun());
+			ps.setString(3, p.getNombrecientifico());
 		} catch (SQLException e) {
 			System.out.println("Error al insertar en plantas" + e.getMessage());
 		}
@@ -59,42 +59,69 @@ public class PlantaDAO implements OperacionesCRUD<Planta> {
 	}
 
 	@Override
+	
+	//CU1: ver plantas
 	public Collection<Planta> busquedaDeTodos() {
-		HashSet<Planta> todas = new HashSet<>(); 
-	    String consulta = "SELECT * FROM plantas"; 
-	    try {
-	        if (this.conex == null || this.conex.isClosed()) {
-	            this.conex = ConexionBD.getConexion();
-	        }
-	        PreparedStatement ps = conex.prepareStatement(consulta);
-	        ResultSet resultado = ps.executeQuery();
-	        while (resultado.next()) {
-	            Planta planta = new Planta(                
-	                resultado.getString("codigo"),           
-	                resultado.getString("nombrecomun"),      
-	                resultado.getString("nombrecientifico"));
-	            todas.add(planta); 
-	        }
-	        conex.close();
-	    } catch (SQLException e) {
-	        System.out.println("Error al obtener todas las plantas: " + e.getMessage());
-	        e.printStackTrace();
-	    
-	    }
-	    
-	    return todas;
-		
+		HashSet<Planta> todas = new HashSet<>();
+		String consulta = "SELECT * FROM plantas";
+		try {
+			if (this.conex == null || this.conex.isClosed()) {
+				this.conex = ConexionBD.getConexion();
+			}
+			PreparedStatement ps = conex.prepareStatement(consulta);
+			ResultSet resultado = ps.executeQuery();
+			while (resultado.next()) {
+				Planta planta = new Planta(resultado.getString("codigo"), resultado.getString("nombrecomun"),
+						resultado.getString("nombrecientifico"));
+				todas.add(planta);
+			}
+			conex.close();
+		} catch (SQLException e) {
+			System.out.println("Error al obtener todas las plantas: " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return todas;
+
 	}
 
 	@Override
-	public boolean modificar(Planta elemento) {
+	public boolean modificar(Planta p) {
+		String consulta = "UPDATE plantas SET nombrecomun =?, nombrecientifico =? WHERE codigo =?";
+		try {
+
+			ps = conex.prepareStatement(consulta);
+			ps.setString(1, p.getNombrecomun());
+			ps.setString(2, p.getNombrecientifico());
+			ps.setString(3, p.getCodigo());
+
+			int resultadomodificacion = ps.executeUpdate();
+			if (resultadomodificacion == 1)
+				return true;
+			else
+				return false;
+
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException:" + e.getMessage());
+			e.printStackTrace();
+		}
 
 		return false;
 	}
 
 	@Override
-	public boolean eliminar(Planta elemento) {
+	public boolean eliminar(Planta p) {
 
+		String consulta = "DELETE FROM plantas WHERE codigo = ?";
+		try {
+			ps = conex.prepareStatement(consulta);
+			ps.setString(1, p.getCodigo());
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar la planta: " + e.getMessage());
+			e.printStackTrace();
+		}
 		return false;
 	}
 }

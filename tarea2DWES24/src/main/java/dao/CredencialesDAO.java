@@ -17,7 +17,7 @@ public class CredencialesDAO implements OperacionesCRUD<Credenciales> {
 	}
 
 	@Override
-	public int insertar(Credenciales elemento) {
+	public long insertar(Credenciales c) {
 
 		return 0;
 	}
@@ -35,13 +35,13 @@ public class CredencialesDAO implements OperacionesCRUD<Credenciales> {
 	}
 
 	@Override
-	public boolean modificar(Credenciales elemento) {
+	public boolean modificar(Credenciales c) {
 
 		return false;
 	}
 
 	@Override
-	public boolean eliminar(Credenciales elemento) {
+	public boolean eliminar(Credenciales c) {
 
 		return false;
 	}

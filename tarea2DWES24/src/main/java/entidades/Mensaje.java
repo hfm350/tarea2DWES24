@@ -1,82 +1,77 @@
 package entidades;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class Mensaje {
-    private int id;
-    private LocalDateTime fechaHora;
-    private String mensaje;
-    private Ejemplar idEjemplar;
 
-    
-    public Mensaje(int id, LocalDateTime fechaHora, String mensaje, Ejemplar ejemplar) {
-        this.id = id;
-        this.fechaHora = fechaHora;
-        this.mensaje = mensaje;
-        this.idEjemplar = ejemplar;
-    }
-
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
-    }
-
-    public void setFechaHora(LocalDateTime fechaHora) {
-        this.fechaHora = fechaHora;
-    }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
-    public Ejemplar getEjemplar() {
-        return idEjemplar;
-    }
-
-    public void setEjemplar(Ejemplar ejemplar) {
-        this.idEjemplar = ejemplar;
-    }
-
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(fechaHora, id, idEjemplar, mensaje);
+	private long id;
+	private LocalDateTime fechahora;
+	private String mensaje;
+	private long idEjemplar;
+	private long idPersona;
+	
+	public Mensaje() {
+		
 	}
 
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Mensaje other = (Mensaje) obj;
-		return Objects.equals(fechaHora, other.fechaHora) && id == other.id
-				&& Objects.equals(idEjemplar, other.idEjemplar) && Objects.equals(mensaje, other.mensaje);
+	public Mensaje(long id, LocalDateTime fechahora, String mensaje, long idEjemplar, long idPersona) {
+		super();
+		this.id = id;
+		this.fechahora = fechahora;
+		this.mensaje = mensaje;
+		this.idEjemplar = idEjemplar;
+		this.idPersona = idPersona;
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public LocalDateTime getFechahora() {
+		return fechahora;
+	}
+
+	public void setFechahora(LocalDateTime fechahora) {
+		this.fechahora = fechahora;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+	
+	
+
+	public long getIdEjemplar() {
+		return idEjemplar;
+	}
+
+	public void setIdEjemplar(long idEjemplar) {
+		this.idEjemplar = idEjemplar;
+	}
+
+	public long getIdPersona() {
+		return idPersona;
+	}
+
+	public void setIdPersona(long idPersona) {
+		this.idPersona = idPersona;
+	}
 
 	@Override
 	public String toString() {
-		return "Mensaje [id=" + id + ", fechaHora=" + fechaHora + ", mensaje=" + mensaje + ", idEjemplar=" + idEjemplar
-				+ "]";
+		return "Mensaje [id=" + id + ", fechahora=" + fechahora + ", mensaje=" + mensaje + ", idEjemplar=" + idEjemplar
+				+ ", idPersona=" + idPersona + "]";
 	}
-    
-    
-}
 
+	
+	
+	
+}

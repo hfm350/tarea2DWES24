@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import dao.*;
+
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class ConexionBD {
@@ -62,6 +64,24 @@ public class ConexionBD {
 		}
 		return con;
 	}
+	
+	public PlantaDAO getPlantaDAO() {
+		return new PlantaDAO(con);
+	}
+	
+	public EjemplarDAO getEjemplarDAO() {
+		return new EjemplarDAO(con);
+	}
+	
+	public PersonaDAO getPersonaDAO() {
+		return new PersonaDAO(con);
+	}
+	
+	public MensajeDAO getMensajeDAO() {
+		return new MensajeDAO(con);
+	}
+	
+	
 
 
 	public static ConexionBD getInstance() {
