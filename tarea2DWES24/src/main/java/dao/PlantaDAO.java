@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import entidades.Planta;
 import utils.ConexionBD;
@@ -60,31 +62,36 @@ public class PlantaDAO implements OperacionesCRUD<Planta> {
 
 	@Override
 	
-	//CU1: ver plantas
 	public Collection<Planta> busquedaDeTodos() {
-		HashSet<Planta> todas = new HashSet<>();
-		String consulta = "SELECT * FROM plantas";
-		try {
-			if (this.conex == null || this.conex.isClosed()) {
-				this.conex = ConexionBD.getConexion();
-			}
-			PreparedStatement ps = conex.prepareStatement(consulta);
-			ResultSet resultado = ps.executeQuery();
-			while (resultado.next()) {
-				Planta planta = new Planta(resultado.getString("codigo"), resultado.getString("nombrecomun"),
-						resultado.getString("nombrecientifico"));
-				todas.add(planta);
-			}
-			conex.close();
-		} catch (SQLException e) {
-			System.out.println("Error al obtener todas las plantas: " + e.getMessage());
-			e.printStackTrace();
+	    List<Planta> listaPlantas = new ArrayList<>();
+	    String consulta = "SELECT * FROM plantas";
 
-		}
+	    try {
+	        
+	        if (this.conex == null || this.conex.isClosed()) {
+	            this.conex = ConexionBD.getConexion();
+	        }
+	        
+	        ps = conex.prepareStatement(consulta);
+	        rs = ps.executeQuery();
 
-		return todas;
+	       
+	        while (rs.next()) {
+	            Planta planta = new Planta(
+	                rs.getString("codigo"),
+	                rs.getString("nombrecomun"),
+	                rs.getString("nombrecientifico")
+	            );
+	            listaPlantas.add(planta);
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error al obtener todas las plantas: " + e.getMessage());
+	        e.printStackTrace();
+	    } 
 
+	    return listaPlantas;
 	}
+
 
 	@Override
 	public boolean modificar(Planta p) {

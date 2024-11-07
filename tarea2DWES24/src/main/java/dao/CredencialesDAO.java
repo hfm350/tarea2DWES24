@@ -3,6 +3,9 @@ package dao;
 import entidades.Credenciales;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +14,7 @@ public class CredencialesDAO implements OperacionesCRUD<Credenciales> {
 
 	Connection connex;
 
-	public CredencialesDAO() {
+	public CredencialesDAO(Connection connex) {
 		if (this.connex == null)
 			this.connex = connex;
 	}
@@ -45,5 +48,8 @@ public class CredencialesDAO implements OperacionesCRUD<Credenciales> {
 
 		return false;
 	}
+
+
+
 
 }

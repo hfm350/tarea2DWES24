@@ -7,6 +7,7 @@ public class Controlador {
 	private ServiciosEjemplar serEj;
 	private ServiciosPersona servPersona;
 	private ServiciosMensaje servMensaje;
+	private ServiciosCredenciales servCredenciales;
 
 	public static Controlador getServicios() {
 		if (servicios == null)
@@ -19,6 +20,7 @@ public class Controlador {
 		serEj = new ServiciosEjemplar();
 		servPersona = new ServiciosPersona();
 		servMensaje = new ServiciosMensaje();
+		servCredenciales = new ServiciosCredenciales();
 	}
 
 	public ServiciosPlanta getServiciosPlanta() {
@@ -38,4 +40,7 @@ public class Controlador {
 		return servMensaje;
 	}
 
+	public ServiciosCredenciales getServiciosCredenciales() {
+		return servCredenciales;
+	}
 }
