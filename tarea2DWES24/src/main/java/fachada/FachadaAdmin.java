@@ -1,5 +1,6 @@
 package fachada;
 
+import java.sql.Connection;
 import java.util.Scanner;
 
 import control.Controlador;
@@ -13,7 +14,7 @@ import utils.ConexionBD;
 public class FachadaAdmin {
 	private static FachadaAdmin portal;
 	
-	ConexionBD conex = (ConexionBD) ConexionBD.getConexion();
+	Connection conex = ConexionBD.getConexion();
 	Controlador controlador = Controlador.getServicios();
 
 	ServiciosEjemplar ejServ = controlador.getServiciosEjemplar();
@@ -31,5 +32,7 @@ public class FachadaAdmin {
 
 	Scanner sc = new Scanner(System.in);
 	
-	
+	public void menuAdmin() {
+		System.out.println("Hola");
+	}
 }

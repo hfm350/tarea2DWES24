@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -12,98 +13,89 @@ import dao.*;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class ConexionBD {
-    private static Connection con;
+	private static Connection con;
+	private static ConexionBD bd;
 
-    private static ConexionBD connection = null;
+	private ConexionBD() {
+		Properties prop = new Properties();
+		MysqlDataSource m = new MysqlDataSource();
 
-    private ConexionBD() {
-        Properties prop = new Properties();
-        MysqlDataSource m = new MysqlDataSource();
-        try {
-            
-            InputStream fis = getClass().getClassLoader().getResourceAsStream("db.properties");
-            if (fis == null) {
-                System.err.println("No se pudo encontrar el archivo db.properties");
-                return;
-            }
-            prop.load(fis);
-            m.setUrl(prop.getProperty("url"));
-            m.setPassword(prop.getProperty("password"));
-            m.setUser(prop.getProperty("usuario"));
-            con = m.getConnection();
-        } catch (IOException e) {
-            System.out.println("Error al leer las propiedades del archivo db.properties: " + e.getMessage());
-        } catch (SQLException e) {
-            System.out.println("Error al conectar a la base de datos: " + e.getMessage());
-        }
-    }
+		try (InputStream fis = ConexionBD.class.getClassLoader().getResourceAsStream("db.properties")) {
+			if (fis == null) {
+				throw new IOException("No se pudo encontrar el archivo db.properties");
+			}
+			prop.load(fis);
 
-    public static Connection getConexion() {
-        try {
-            if (con == null || con.isClosed()) {
-                Properties propiedades = new Properties();
-                MysqlDataSource m = new MysqlDataSource();
-                
-                InputStream fis = ConexionBD.class.getClassLoader().getResourceAsStream("db.properties");
-                if (fis == null) {
-                    System.err.println("No se pudo encontrar el archivo db.properties");
-                    return null;
-                }
-                propiedades.load(fis);
+			m.setUrl(prop.getProperty("url"));
+			m.setUser(prop.getProperty("usuario"));
+			m.setPassword(prop.getProperty("password"));
 
-                m.setUrl(propiedades.getProperty("url"));
-                m.setPassword(propiedades.getProperty("password"));
-                m.setUser(propiedades.getProperty("usuario"));
-                con = m.getConnection();
-            }
-            return con;
-        } catch (IOException e) {
-            System.out.println("Error al leer las propiedades del archivo db.properties: " + e.getMessage());
-        } catch (SQLException e) {
-            System.out.println("Error al conectar a la base de datos: " + e.getMessage());
-        }
-        return con;
-    }
+			con = m.getConnection();
+		} catch (IOException e) {
+			System.out.println("Error al leer las propiedades del archivo db.properties: " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("Error al conectar a la base de datos: " + e.getMessage());
+		}
+	}
 
-    public static ConexionBD getInstance() {
-        if (connection == null) {
-            connection = new ConexionBD();
-        }
-        return connection;
-    }
+	public static Connection getConexion() {
+		if (con == null || isClosed(con)) {
+			bd = new ConexionBD();
+		}
+		return con;
+	}
 
-    public static void CerrarConexion() {
-        try {
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	public static ConexionBD getInstance() {
+		if (bd == null) {
+			bd = new ConexionBD();
+		}
+		return bd;
+	}
 
-    public PreparedStatement prepareStatement(String string) {
-        return null;
-    }
+	// Cerramos la conexión
+	public static void cerrarConexion() {
+		try {
+			if (con != null && !con.isClosed()) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al cerrar la conexión a la base de datos: " + e.getMessage());
+		}
+	}
 
-    
-    public PlantaDAO getPlantaDAO() {
-        return new PlantaDAO(con);
-    }
+	// Verificamos si la conexión se cerrada
+	private static boolean isClosed(Connection con) {
+		try {
+			return con == null || con.isClosed();
+		} catch (SQLException e) {
+			System.err.println("Error al verificar si la conexión está cerrada: " + e.getMessage());
+			return true;
+		}
+	}
 
-    public EjemplarDAO getEjemplarDAO() {
-        return new EjemplarDAO(con);
-    }
+	// Obtener DAO
+	public PlantaDAO getPlantaDAO() {
+		return new PlantaDAO(con);
+	}
 
-    public PersonaDAO getPersonaDAO() {
-        return new PersonaDAO(con);
-    }
+	public EjemplarDAO getEjemplarDAO() {
+		return new EjemplarDAO(con);
+	}
 
-    public MensajeDAO getMensajeDAO() {
-        return new MensajeDAO(con);
-    }
+	public PersonaDAO getPersonaDAO() {
+		return new PersonaDAO(con);
+	}
 
-    public CredencialesDAO getCredencialesDAO() {
-        return new CredencialesDAO(con);
-    }
+	public MensajeDAO getMensajeDAO() {
+		return new MensajeDAO(con);
+	}
+
+	public CredencialesDAO getCredencialesDAO() {
+		return new CredencialesDAO(con);
+	}
+
+	// Método para preparar consultas
+	public PreparedStatement prepareStatement(String query) throws SQLException {
+		return con.prepareStatement(query);
+	}
 }

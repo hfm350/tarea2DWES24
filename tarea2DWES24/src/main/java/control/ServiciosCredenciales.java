@@ -11,46 +11,41 @@ import utils.ConexionBD;
 
 public class ServiciosCredenciales {
 
-    private ConexionBD conex;
-    private CredencialesDAO credencialesDao;
-    private PersonaDAO personaDao;
+	private Connection conex;
+	private CredencialesDAO credencialesDao;
+	private PersonaDAO personaDao;
 
-    public ServiciosCredenciales() {
-        conex = ConexionBD.getInstance();
-        credencialesDao = conex.getCredencialesDAO();
-        personaDao = conex.getPersonaDAO();
-       
-    }
+	public ServiciosCredenciales() {
+		this.conex = (Connection) ConexionBD.getConexion();
+		credencialesDao = new CredencialesDAO(conex);
+		personaDao = new PersonaDAO(conex);
 
-    public boolean autenticar(String usuario, String contraseña) {
-        boolean autenticado = false;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        
+	}
 
-        try {
-            ps = conex.prepareStatement("SELECT password FROM usuarios WHERE nombre_usuario = ?");
-            ps.setString(1, usuario);
-            rs = ps.executeQuery();
+	public boolean autenticar(String usuario, String contraseña) {
+		boolean autenticado = false;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 
-            if (rs.next()) {
-                String contraseñaBD = rs.getString("password");
-                if (contraseña.equals(contraseñaBD)) {
-                    autenticado = true;
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al autenticar usuario: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar recursos de autenticación: " + e.getMessage());
-            }
-        }
+		try {
+			
+			ps = conex.prepareStatement("SELECT password FROM credenciales WHERE usuario = ?");
+			ps.setString(1, usuario); 
 
-        return autenticado;
-    }
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				String contraseñaBD = rs.getString("password");
+				
+				if (contraseña.equals(contraseñaBD)) {
+					autenticado = true;
+				}
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al autenticar usuario: " + e.getMessage());
+		}
+
+		return autenticado;
+
+	}
 }
-

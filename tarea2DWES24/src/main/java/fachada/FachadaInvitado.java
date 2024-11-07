@@ -18,8 +18,8 @@ public class FachadaInvitado {
 
 	private static FachadaInvitado portal;
 
-	
-	Connection conex = ConexionBD.getConexion();
+	Connection conex = (Connection) ConexionBD.getConexion();
+
 	Controlador controlador = Controlador.getServicios();
 
 	ServiciosEjemplar ejServ = controlador.getServiciosEjemplar();
@@ -34,56 +34,60 @@ public class FachadaInvitado {
 		}
 		return portal;
 	}
-
+	
+	FachadaAdmin portalAdmin = FachadaAdmin.getPortal();
+	
 	Scanner sc = new Scanner(System.in);
 
 	public void menuInvitado() {
-		System.out.println("Bienvenido al menu de gestión de un vivero");
-		System.out.println("\nPULSE");
-		System.out.println("1 -  Ver Plantas.");
-		System.out.println("2 -  Iniciar sesión.");
-		System.out.println("9 -  Cerrar aplicación.");
+		System.out.println("\t\tBienvenido al menú de gestión de un vivero de Plantas");
+		System.out.println("\nPULSE: ");
+		System.out.println("\t\t1 - Ver Plantas.");
+		System.out.println("\t\t2 - Iniciar sesión.");
+		System.out.println("\t\t9 - Cerrar aplicación.");
 	}
 
 	public void mostrarMenuInvitado() {
-		boolean AbiertaSesion = false;
+		boolean AbiertaSesion = false; 
 		int opcion = 0;
-
 		do {
-			this.menuInvitado();
+			this.menuInvitado(); 
 			try {
-				opcion = sc.nextInt();
-				sc.nextLine();
-
-				if (opcion < 0 || opcion > 2) {
-					System.err.println("Opción fuera de rango. Inténtelo de nuevo.");
-					continue;
+				System.out.print("Selecciona una opción: ");
+				opcion = sc.nextInt(); 
+				sc.nextLine(); 
+				if (opcion != 1 && opcion != 2 && opcion != 9) {
+					System.out.println("Opción invalida. Prueba otra vez. \n");
+					continue; 
 				}
-
 				switch (opcion) {
 				case 1:
-					List<Planta> plantas = (List<Planta>) servPlanta.busquedaDeTodos();
+					List<Planta> plantas = (List<Planta>) servPlanta.busquedaDeTodos(); 
 					if (plantas.isEmpty()) {
-						System.out.println("No hay plantas almacenadas");
+						System.out.println("No hay plantas almacenadas.");
 					} else {
 						System.out.println("Lista de plantas:");
 						for (int i = 0; i < plantas.size(); i++) {
-							System.out.println((i + 1) + "ª " + plantas.get(i));
+							System.out.println((i + 1) + "ª " + plantas.get(i)); 
 						}
 					}
 					break;
-
 				case 2:
 					System.out.print("Introduce tu usuario: ");
-					String usuario = sc.nextLine();
+					String usuario = sc.nextLine().toUpperCase();
 					System.out.print("Introduce tu contraseña: ");
-					String contraseña = sc.nextLine();
+					String contraseña = sc.nextLine().toLowerCase(); 
 
+					// Verifica si las credenciales son correctas.
 					if (servCredenciales.autenticar(usuario, contraseña)) {
+						//si las credenciales coinciden con las del usuario 
 						AbiertaSesion = true;
-						System.out.println("Sesión iniciada correctamente.");
-					} else {
-						System.err.println("Usuario o contraseña incorrectos.");
+						System.out.print("\n");
+						System.out.println("\t\tHola ADMIN, bienvenido dispones de todo el control del VIVERO");
+						portalAdmin.menuAdmin();
+						
+					} else {	
+						System.out.println("Usuario o contraseña incorrectos.");
 					}
 					break;
 
@@ -93,11 +97,13 @@ public class FachadaInvitado {
 				}
 
 			} catch (InputMismatchException e) {
-				System.err.println("Entrada inválida. Por favor, ingrese un número entero.");
+				// Si mete un numero que no es entero salta este error
+				System.out.println("Entrada inválida. Por favor, ingrese un número entero.\n");
 				sc.next();
 			}
-		} while (!AbiertaSesion && opcion != 9);
 
-		sc.close();
+		} while (!AbiertaSesion && opcion != 9); // El bucle se repite hasta que se la inicie sesión o el usuario quiera
+													// salir del PROGRAMA.
 	}
+
 }

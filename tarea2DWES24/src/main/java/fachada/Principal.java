@@ -7,13 +7,11 @@ import utils.ConexionBD;
 public class Principal {
 
 	public static void main(String[] args) {
-		
-		
-		FachadaInvitado portal = FachadaInvitado.getPortal();
-		
-		Connection connection = ConexionBD.getConexion();
-
-		
-	}
+	    Connection connection = (Connection) ConexionBD.getConexion();
+	    
+	        FachadaInvitado portal = FachadaInvitado.getPortal();
+	        portal.mostrarMenuInvitado();
+	    }
+	
 
 }
