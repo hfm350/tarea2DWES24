@@ -34,9 +34,11 @@ public class FachadaInvitado {
 		}
 		return portal;
 	}
-	
+
 	FachadaAdmin portalAdmin = FachadaAdmin.getPortal();
-	
+
+	FachadaPersonal portalPersonal = FachadaPersonal.getPortal();
+
 	Scanner sc = new Scanner(System.in);
 
 	public void menuInvitado() {
@@ -48,45 +50,49 @@ public class FachadaInvitado {
 	}
 
 	public void mostrarMenuInvitado() {
-		boolean AbiertaSesion = false; 
+		boolean AbiertaSesion = false;
 		int opcion = 0;
 		do {
-			this.menuInvitado(); 
+			this.menuInvitado();
 			try {
 				System.out.print("Selecciona una opción: ");
-				opcion = sc.nextInt(); 
-				sc.nextLine(); 
+				opcion = sc.nextInt();
+				sc.nextLine();
 				if (opcion != 1 && opcion != 2 && opcion != 9) {
 					System.out.println("Opción invalida. Prueba otra vez. \n");
-					continue; 
+					continue;
 				}
 				switch (opcion) {
 				case 1:
-					List<Planta> plantas = (List<Planta>) servPlanta.busquedaDeTodos(); 
+					List<Planta> plantas = (List<Planta>) servPlanta.busquedaDeTodos();
 					if (plantas.isEmpty()) {
 						System.out.println("No hay plantas almacenadas.");
 					} else {
 						System.out.println("Lista de plantas:");
 						for (int i = 0; i < plantas.size(); i++) {
-							System.out.println((i + 1) + "ª " + plantas.get(i)); 
+							System.out.println((i + 1) + " ª " + plantas.get(i));
 						}
 					}
 					break;
 				case 2:
 					System.out.print("Introduce tu usuario: ");
-					String usuario = sc.nextLine().toUpperCase();
+					String usuario = sc.nextLine().toUpperCase().trim();
 					System.out.print("Introduce tu contraseña: ");
-					String contraseña = sc.nextLine().toLowerCase(); 
+					String contraseña = sc.nextLine().toLowerCase().trim();
 
-					// Verifica si las credenciales son correctas.
+					// verifica si las credenciales son correctas.
 					if (servCredenciales.autenticar(usuario, contraseña)) {
-						//si las credenciales coinciden con las del usuario 
+						// si las credenciales coinciden con las del usuario
 						AbiertaSesion = true;
 						System.out.print("\n");
-						System.out.println("\t\tHola ADMIN, bienvenido dispones de todo el control del VIVERO");
-						portalAdmin.menuAdmin();
-						
-					} else {	
+						if (usuario.equals("ADMIN") && contraseña.equals("admin")) {
+							System.out.println("\t\tHola ADMIN, bienvenido dispones de todo el control del VIVERO");
+							portalAdmin.menuAdmin();
+						} else {
+							portalPersonal.menuPersonal();
+						}
+
+					} else {
 						System.out.println("Usuario o contraseña incorrectos.");
 					}
 					break;
@@ -97,13 +103,14 @@ public class FachadaInvitado {
 				}
 
 			} catch (InputMismatchException e) {
-				// Si mete un numero que no es entero salta este error
-				System.out.println("Entrada inválida. Por favor, ingrese un número entero.\n");
+				// si mete un numero que no es entero salta este error
+				System.out.println("ERROR, porfavor ingrese un numero ENTERO\n");
 				sc.next();
 			}
 
-		} while (!AbiertaSesion && opcion != 9); // El bucle se repite hasta que se la inicie sesión o el usuario quiera
-													// salir del PROGRAMA.
+		} while (!AbiertaSesion && opcion != 9);
+		// el bucle se repite hasta que se la inicie sesión o el usuario quiera salir
+		// del PROGRAMA.
 	}
 
 }

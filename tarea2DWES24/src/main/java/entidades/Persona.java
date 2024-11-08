@@ -13,7 +13,15 @@ public class Persona {
 		this.email = email;
 
 	}
+	public Persona(String nombre, String email) {
+		this.id = id;
+		this.nombre = nombre;
+		this.email = email;
 
+	}
+
+	public Persona() {
+	}
 	public long getId() {
 		return id;
 	}
@@ -40,7 +48,7 @@ public class Persona {
 
 	@Override
 	public String toString() {
-		return "Persona [id=" + id + ", nombre=" + nombre + ", email=" + email + "]";
+	    return "ID: " + id + ", Nombre: " + nombre + ", Email: " + email;
 	}
-
+	
 }

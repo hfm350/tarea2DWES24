@@ -16,6 +16,19 @@ public class Credenciales {
 		this.idPersona = idPersona;
 	}
 
+	public Credenciales(String usuario, String password) {
+		super();
+		this.usuario = usuario;
+		this.password = password;
+
+	}
+
+	public Credenciales() {
+		
+	}
+
+	
+
 	public long getId() {
 		return id;
 	}
@@ -53,7 +66,5 @@ public class Credenciales {
 		return "Credenciales [id=" + id + ", usuario=" + usuario + ", password=" + password + ", idPersona=" + idPersona
 				+ "]";
 	}
-	
-	
 
 }

@@ -25,12 +25,13 @@ public class PlantaDAO implements OperacionesCRUD<Planta> {
 	@Override
 	public long insertar(Planta p) {
 		try {
-			ps = conex.prepareStatement("insert into plantas (codigo, nombrecomun, nombrecientifico) values (?,?,?)");
+			ps = conex.prepareStatement("INSERT INTO plantas (codigo, nombrecomun, nombrecientifico) VALUES (?, ?, ?)");
 			ps.setString(1, p.getCodigo());
 			ps.setString(2, p.getNombrecomun());
 			ps.setString(3, p.getNombrecientifico());
+			return ps.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Error al insertar en plantas" + e.getMessage());
+			System.out.println("Error al insertar en plantas: " + e.getMessage());
 		}
 		return 0;
 	}
@@ -61,37 +62,32 @@ public class PlantaDAO implements OperacionesCRUD<Planta> {
 	}
 
 	@Override
-	
+
 	public Collection<Planta> busquedaDeTodos() {
-	    List<Planta> listaPlantas = new ArrayList<>();
-	    String consulta = "SELECT * FROM plantas";
+		List<Planta> listaPlantas = new ArrayList<>();
+		String consulta = "SELECT * FROM plantas";
 
-	    try {
-	        
-	        if (this.conex == null || this.conex.isClosed()) {
-	            this.conex = ConexionBD.getConexion();
-	        }
-	        
-	        ps = conex.prepareStatement(consulta);
-	        rs = ps.executeQuery();
+		try {
 
-	       
-	        while (rs.next()) {
-	            Planta planta = new Planta(
-	                rs.getString("codigo"),
-	                rs.getString("nombrecomun"),
-	                rs.getString("nombrecientifico")
-	            );
-	            listaPlantas.add(planta);
-	        }
-	    } catch (SQLException e) {
-	        System.out.println("Error al obtener todas las plantas: " + e.getMessage());
-	        e.printStackTrace();
-	    } 
+			if (this.conex == null || this.conex.isClosed()) {
+				this.conex = ConexionBD.getConexion();
+			}
 
-	    return listaPlantas;
+			ps = conex.prepareStatement(consulta);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Planta planta = new Planta(rs.getString("codigo"), rs.getString("nombrecomun"),
+						rs.getString("nombrecientifico"));
+				listaPlantas.add(planta);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al obtener todas las plantas: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return listaPlantas;
 	}
-
 
 	@Override
 	public boolean modificar(Planta p) {
@@ -130,5 +126,54 @@ public class PlantaDAO implements OperacionesCRUD<Planta> {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public boolean esunCodigo(String codigo) {
+		String consulta = "SELECT * FROM plantas WHERE codigo = ?";
+		ArrayList<String> entradaCodigo = new ArrayList<String>();
+		try {
+			ps = conex.prepareStatement(consulta);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				entradaCodigo.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (entradaCodigo.contains(codigo.toUpperCase())) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public boolean nombreComun(String codigo, String nombreNuevo) {
+		String consulta = "UPDATE plantas SET nombrecomun = ? WHERE codigo = ?";
+		try (Connection connection = ConexionBD.getConexion();
+				PreparedStatement ps = connection.prepareStatement(consulta)) {
+			ps.setString(1, nombreNuevo);
+			ps.setString(2, codigo);
+			int filas = ps.executeUpdate();
+			return filas > 0;
+		} catch (SQLException e) {
+			System.out.println("Error al modificar el nombre común: " + e.getMessage());
+			return false;
+		}
+
+	}
+
+	public boolean nombreCientifico(String codigo, String nombreNuevo) {
+		String consulta = "UPDATE plantas SET nombrecientifico = ? WHERE codigo = ?";
+		try (Connection connection = ConexionBD.getConexion();
+				PreparedStatement ps = connection.prepareStatement(consulta)) {
+			ps.setString(1, nombreNuevo);
+			ps.setString(2, codigo);
+			int filas = ps.executeUpdate();
+			return filas > 0;
+		} catch (SQLException e) {
+			System.out.println("Error al modificar el nombre cientifico: " + e.getMessage());
+			return false;
+		}
 	}
 }

@@ -2,6 +2,8 @@ package dao;
 
 import java.util.Collection;
 
+import entidades.Persona;
+
 public interface OperacionesCRUD<T> {
 
 	public long insertar(T elemento);
@@ -13,5 +15,7 @@ public interface OperacionesCRUD<T> {
 	public boolean modificar(T elemento);
 
 	public boolean eliminar(T elemento);
+
+	
 	
 }
